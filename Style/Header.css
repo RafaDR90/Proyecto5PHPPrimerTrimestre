@@ -1,0 +1,34 @@
+
+header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    height: 20vh;
+}
+
+
+header h1 {
+    margin: 0;
+}
+header h2{
+    margin-top: 1.3vh;
+    color: yellow;
+}
+
+nav {
+    text-align: center;
+    margin-top: 10px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+    margin: 0 15px;
+}
+
+
+nav a:hover {
+    color: #ffcc00;
+    text-decoration: underline;
+}

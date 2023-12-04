@@ -1,0 +1,26 @@
+{
+    "name": "myburra/proyecto5primer-trimestre",
+    "description": "proyecto primer trimestre",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Myburra\\Proyecto5primerTrimestre\\": "./",
+            "Controllers\\" : "./Controllers",
+            "Models\\": "./Models",
+            "Lib\\": "./Lib",
+            "Repositories\\": "./Repositories",
+            "Services\\": "./Services",
+            "Utils\\": "./Utils"
+        }
+    },
+    "authors": [
+        {
+            "name": "Rafa"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "vlucas/phpdotenv": "^5.6",
+        "stefangabos/zebra_pagination": "^2.4"
+    }
+}

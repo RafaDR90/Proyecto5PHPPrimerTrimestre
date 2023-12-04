@@ -1,0 +1,10 @@
+<?php
+namespace Utils;
+class Utils{
+    public static function deleteSession($nombreSession){
+        if (isset($_SESSION[$nombreSession])){
+            $_SESSION[$nombreSession]=null;
+            unset($_SESSION[$nombreSession]);
+        }
+    }
+}

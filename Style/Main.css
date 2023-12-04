@@ -1,0 +1,6 @@
+main{
+    background-color: #333;
+    height: 75vh;
+    display: flex;
+    justify-content: center;
+}

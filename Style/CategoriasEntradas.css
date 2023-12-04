@@ -1,0 +1,135 @@
+#categoriasContainer {
+    width: 80%;
+    background-color: white;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 0px 10px rgb(0, 0, 0);
+    border-radius: 10px;
+}
+
+
+.categoria {
+    list-style-type: none;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    font-size: 2vw;
+    display: flex;
+    align-items: center; /* Centrar verticalmente */
+    height: 10vh;
+}
+.categoria:nth-child(even) {
+    background-color: rgba(208, 208, 208, 0.63);
+}
+
+.listaAddCategoria{
+    list-style-type: none;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    font-size: 2vw;
+
+
+
+}
+.linkAddCategoria{
+    width: 2.5vw; /* Ajusta según sea necesario */
+    height: 2.5vw; /* Ajusta según sea necesario */
+    color: #003f00;
+    padding: 0.6vw;
+    border-radius: 10px;
+}
+.linkAddCategoria:hover{
+    box-shadow: 5px 5px 10px rgb(49, 49, 49);
+}
+
+.imgAddCategoria{
+
+    width: 2.5vh;
+    height: 2.5vh;
+}
+.categoria .linkCategoriaName {
+    flex-grow: 1;
+    margin-left: 2vw;
+}
+.categoria .linkCategoriaName:hover{
+    text-decoration: underline;
+}
+.icono {
+    margin-left: 1vw; /* Los iconos se colocan a la derecha */
+    width: 2.5vw; /* Ajusta según sea necesario */
+    height: 2.5vw; /* Ajusta según sea necesario */
+}
+
+
+
+/* Opcional: Estilo para los enlaces */
+.categoria a {
+    text-decoration: none;
+    color: #333;
+}
+img{
+    width: 100%;
+    height: 100%;
+}
+.categoria .icono:hover{
+    box-shadow: 5px 5px 10px rgb(49, 49, 49);
+    border-radius: 10px;
+}
+
+.entrada{
+    list-style-type: none;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    font-size: 1vw;
+    display: flex;
+    align-items: center;
+}
+.paginationLinksContainer{
+    background-color: rgba(208, 208, 208, 0.63);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 8vh;
+    margin-top: auto;
+    border-top: grey 0.5vh inset;
+}
+.spanEntradaName{
+    font-size: 1.5vw;
+    flex-grow: 1;
+    margin-left: 2vw;
+}
+.descripcionEntrada{
+    font-size: 1vw;
+    flex-grow: 1;
+}
+.entradalista{
+    list-style-type: none;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    height: 10vh;
+    justify-content: space-between;
+}
+.iconos{
+    display: flex;
+}
+.entradaIzq{
+    display: flex;
+    flex-direction: column;
+}
+.tituloEntrada{
+    font-size: 1.5vw;
+}
+.titularEntrada{
+    font-size: 0.7vw;
+    color: grey;
+}
+.entradaMid{
+    width: 70%;
+    height: 90%;
+}
+.fechaEntrada{
+    font-size: 0.7vw;
+    color: grey;
+}

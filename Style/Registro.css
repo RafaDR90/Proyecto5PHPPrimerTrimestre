@@ -1,0 +1,48 @@
+.registroContainer{
+    width: 80%;
+    background-color: white;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 0px 10px rgb(0, 0, 0);
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+.registroContainer .completado {
+    color: #27ae60; /* Color verde para mensajes de éxito */
+}
+.registroContainer .fallido {
+    color: #c0392b; /* Color rojo para mensajes de error */
+}
+
+.registroContainer form {
+    width: 30%;
+    max-width: 400px; /* Ancho máximo del formulario */
+}
+
+.registroContainer label {
+    display: block;
+    margin-bottom: 1vh;
+    font-weight: bold;
+}
+
+.registroContainer input {
+    width: 100%;
+    padding: 1vh;
+    margin-bottom: 2vh;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.registroContainer input[type="submit"] {
+    background-color: #3498db; /* Color azul para el botón de enviar */
+    color: white;
+    cursor: pointer;
+}
+
+.registroContainer input[type="submit"]:hover {
+    background-color: #2980b9; /* Cambia el color al pasar el ratón sobre el botón */
+}
