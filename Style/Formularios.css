@@ -42,6 +42,12 @@
     margin-top: 10px;
     color: #27ae60; /* Color verde para el texto del usuario identificado */
 }
-.error{
-    color:red;
+.loginContainer textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    resize: vertical; /* Permite la redimensión vertical del textarea */
 }

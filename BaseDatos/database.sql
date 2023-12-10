@@ -34,24 +34,11 @@ CREATE TABLE Entradas (
                           FOREIGN KEY (categoria_id) REFERENCES Categorias(id) ON DELETE CASCADE
 )ENGINE=InnoDb DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
-select * from Categorias;
-INSERT INTO categorias VALUES (null, 'Videojuegos');
-INSERT INTO categorias VALUES (null, 'Consolas');
-INSERT INTO categorias (nombre) VALUES
-                                    ('Electrónica'),
-                                    ('Deportes'),
-                                    ('Ropa'),
-                                    ('Libros'),
-                                    ('Música'),
-                                    ('Hogar'),
-                                    ('Salud'),
-                                    ('Juguetes');
-select * from usuarios;
+
+
+/*
 UPDATE Usuarios
 SET rol = 'admin'
-WHERE nombre = 'rafa';
+WHERE nombre = 'admin';
+*/
 
-select * from entradas;
-INSERT INTO entradas VALUES (null,1,1,'GodOfWard','Juego de accion',CURDATE());
-INSERT INTO entradas VALUES (null,1,1,'Pokemon','Juego de rol',CURDATE());
-INSERT INTO entradas VALUES (null,1,2,'PS5','Consola Sony de ultima generacion',CURDATE());

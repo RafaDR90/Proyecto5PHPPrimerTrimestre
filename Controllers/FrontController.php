@@ -3,6 +3,10 @@
 namespace Controllers;
 
 class FrontController{
+    /**
+     * Funcion que se encarga de cargar el controlador y la accion que se le pasa por la url y ejecutarla
+     * @return void
+     */
     public static function main(): void{
         if (isset($_GET['controller'])){
             $nombre_controlador= 'Controllers\\'.$_GET['controller'].'Controller';

@@ -11,8 +11,9 @@
     <link rel="stylesheet" href="./Style/Main.css">
     <link rel="stylesheet" href="./Style/CategoriasEntradas.css">
     <link rel="stylesheet" href="./Style/Registro.css">
-    <link rel="stylesheet" href="./Style/Login.css">
+    <link rel="stylesheet" href="./Style/Formularios.css">
     <link rel="stylesheet" href="./vendor/stefangabos/zebra_pagination/public/css/zebra_pagination.css" type="text/css">
+    <link rel="stylesheet" href="./Style/Pagination.css">
 </head>
 <body>
     <header>
@@ -20,8 +21,8 @@
         <nav>
             <a href="<?= BASE_URL ?>">Ver categorias</a>
             <?php if (isset($_SESSION['identificado'])): ?>
-                <a href=<?= BASE_URL ?>usuario/editar/">Editar cuenta</a>
-                <a href=<?= BASE_URL ?>usuario/logout/">Cerrar sesion</a>
+                <a href="<?= BASE_URL ?>Usuario/editar/">Editar cuenta</a>
+                <a href="<?= BASE_URL ?>Usuario/logout/">Cerrar sesion</a>
                 <?php if ($_SESSION['identificado']=='admin'): ?>
                     <a href="">Crear categoria</a>
                 <?php endif; ?>

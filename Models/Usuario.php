@@ -1,8 +1,8 @@
 <?php
 namespace Models;
-use Lib\BaseDatos,
-    PDO,
-    PDOException;
+
+use Utils\ValidationUtils;
+
 class Usuario{
     private string|null $id;
     private string $nombre;
@@ -12,11 +12,9 @@ class Usuario{
     private string $rol;
 
     protected array $errores;
-    private BaseDatos $db;
 
     public function __construct(int|null $id=null, string $nombre='', string $apellidos='', string $email='', string $password='', string $rol='')
     {
-        $this->db=new BaseDatos();
         $this->id=$id;
         $this->nombre=$nombre;
         $this->apellidos=$apellidos;
@@ -25,15 +23,7 @@ class Usuario{
         $this->rol=$rol;
     }
 
-    public function getAllNameAndId():?array
-    {
-        $select=$this->db->prepara("SELECT id,nombre FROM usuarios");
-        $select->execute();
-        $categorias=$select->fetchAll(PDO::FETCH_ASSOC);
-        $select->closeCursor();
-        $select=null;
-        return $categorias;
-    }
+
     public function getId(): ?string
     {
         return $this->id;
@@ -94,6 +84,11 @@ class Usuario{
         $this->rol = $rol;
     }
 
+    /**
+     * Devuelve un array de objetos Usuario a partir de un array asociativo
+     * @param array $data Array asociativo de datos
+     * @return array Devuelve un array de objetos Usuario
+     */
     public static function fromArray(array $data):?array{
         $usuarios=[];
         foreach ($data as $dt){
@@ -103,85 +98,99 @@ class Usuario{
                 $dt['apellidos']??'',
                 $dt['email']??'',
                 $dt['password']??'',
-                $dt['rol']??'',
+                $dt['rol']??'user',
             );
             $usuarios[]=$user;
         }
         return $usuarios;
     }
 
-    public function save(){
-        if ($this->getId()){
-            return $this->update();
-        }else{
-            return $this->create();
-        }
+    /**
+     * Crea un objeto Usuario a partir de un array asociativo
+     * @param array $data Array asociativo de datos
+     * @return Usuario|null Devuelve un objeto Usuario o null si no se ha podido crear
+     */
+    public static function fromArrayOne(array $data):?Usuario{
+        return new Usuario(
+            $data['id']?? null,
+            $data['nombre']??'',
+            $data['apellidos']??'',
+            $data['email']??'',
+            $data['password']??'',
+            'user',
+        );
     }
 
-    public function desconecta(){
-        $this->db->cierraConexion();
-    }
 
-    public function create(){
-        $id=null;
-        $nombre=$this->getNombre();
-        $apellidos=$this->getApellidos();
-        $email=$this->getEmail();
+    /**
+     * Sanea y valida los datos del usuario y devuelve un array con los datos saneados y validados
+     *
+     * @param $datosConfirmados mixed Array de datos confirmados o false si no se han podido confirmar
+     * @return mixed
+     */
+    public function login(mixed $datosConfirmados):mixed{
         $password=$this->getPassword();
-        $rol='user';
-        try{
-            $ins=$this->db->prepara("INSERT INTO usuarios (id,nombre,apellidos,email,password,rol) values (:id,:nombre,:apellidos,:email,:password,:rol)");
-            $ins->bindValue(':id',$id);
-            $ins->bindValue(':nombre',$nombre);
-            $ins->bindValue(':apellidos',$apellidos);
-            $ins->bindValue(':email',$email);
-            $ins->bindValue(':password',$password);
-            $ins->bindValue(':rol',$rol);
-            $ins->execute();
-            $result=true;
-        }catch (PDOException $err){
-            $result=false;
-        }
-        return $result;
-    }
 
-    public function obtenerPassword($email){
-        $select= $this->db->prepara("SELECT * FROM usuarios WHERE email = :email");
-        $select->bindValue(':email', $email);
-        $select->execute();
-        return $resultados = $select->fetch(PDO::FETCH_ASSOC);
-    }
-
-    public function login(){
-        $result=false;
-        $email = $this->getEmail();
-        $password=$this->getPassword();
-        $usuario=$this->buscaMail($email);
-        if ($usuario !==false){
-            $verify=password_verify($password,$usuario->password);
+        if ($datosConfirmados !==false){
+            $verify=password_verify($password,$datosConfirmados->password);
             if ($verify){
-                return $usuario;
-            }
-        }
+                return $datosConfirmados;
+            }else return null;
+        }else return null;
 
     }
-    public function buscaMail($email){
-        $cons=$this->db->prepara("SELECT * FROM usuarios WHERE email=:email");
-        $cons->bindValue(':email',$email,PDO::PARAM_STR);
-        try{
-            $cons->execute();
-            if ($cons && $cons->rowCount()==1){
-                $result=$cons->fetch(PDO::FETCH_OBJ);
-            }else{
-                $result=false;
-            }
-        }catch (PDOException $err){
-            $result=false;
-        }
-        return $result;
-    }
-    public function validar(){}
 
-    public function sanear(){}
+    /**
+     * Sanea y valida los datos del usuario y devuelve un array con los datos saneados y validados
+     * @param array $datos Array de datos
+     * @return array|null Devuelve un array con los datos saneados y validados o null si no se han podido sanear y validar
+     */
+    public function SaneaDatos(array $datos):?array{
+        $datos['nombre']=ValidationUtils::sanidarStringFiltro($datos['nombre']);
+        $datos['apellidos']=ValidationUtils::sanidarStringFiltro($datos['apellidos']);
+        $datos['email']=filter_var($datos['email'],FILTER_SANITIZE_EMAIL);
+        $datos['password']=ValidationUtils::sanidarStringFiltro($datos['password']);
+        return $datos;
+    }
+
+    /**
+     * Valida los datos del usuario y devuelve un string con el error o null si no hay errores
+     * @param $datos array Array de datos
+     * @return string|null Devuelve un string con el error o null si no hay errores
+     */
+    public function ValidaDatos(array $datos):?string{
+        //Valida Nombre
+        if (!ValidationUtils::noEstaVacio($datos['nombre'])){
+            return 'El nombre no puede estar vacio';
+        }
+        if (!ValidationUtils::son_letras($datos['nombre'])){
+            return 'El nombre no puede contener caracteres especiales ni numeros';
+        }
+        if (!ValidationUtils::TextoNoEsMayorQue($datos['nombre'],30)){
+            return 'El nombre no puede tener mas de 30 caracteres';
+        }
+        //Valida Apellidos
+        if (!ValidationUtils::noEstaVacio($datos['apellidos'])){
+            return 'Los apellidos no pueden estar vacios';
+        }
+        if (!ValidationUtils::son_letras($datos['apellidos'])){
+            return 'Los apellidos no pueden contener caracteres especiales ni numeros';
+        }
+        if (!ValidationUtils::TextoNoEsMayorQue($datos['apellidos'],50)){
+            return 'Los apellidos no pueden tener mas de 50 caracteres';
+        }
+        //Valida Email
+        if (!filter_var($datos['email'],FILTER_VALIDATE_EMAIL)){
+            return 'El email no es valido';
+        }
+        //Valida Password
+        if (!ValidationUtils::noEstaVacio($datos['password'])){
+            return 'La contraseña no puede estar vacia';
+        }
+        if(!ValidationUtils::validarContrasena($datos['password'])){
+            return 'La contraseña no es valida';
+        }
+        return null;
+    }
 
 }

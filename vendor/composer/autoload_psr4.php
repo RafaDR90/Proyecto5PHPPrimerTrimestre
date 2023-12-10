@@ -11,6 +11,7 @@ return array(
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
     'Services\\' => array($baseDir . '/Services'),
+    'Repositorys\\' => array($baseDir . '/Repositorys'),
     'Repositories\\' => array($baseDir . '/Repositories'),
     'PhpOption\\' => array($vendorDir . '/phpoption/phpoption/src/PhpOption'),
     'Myburra\\Proyecto5primerTrimestre\\' => array($baseDir . '/'),

@@ -1,7 +1,7 @@
 <?php
 namespace Models;
-use Lib\BaseDatos,
-PDO;
+
+use Utils\ValidationUtils;
 
 class Entrada{
     private int|null $id;
@@ -10,12 +10,10 @@ class Entrada{
     private string $titulo;
     private string $descripcion;
     private string $date;
-    private BaseDatos $db;
 
     public function __construct(int|null $id=null, ?int $usuario_id=null, ?int $categoria_id=null,
                                 string $titulo="", string $descripcion="", string $date="")
     {
-    $this->db=new BaseDatos();
     $this->id=$id;
     $this->usuario_id=$usuario_id;
     $this->categoria_id=$categoria_id;
@@ -24,6 +22,27 @@ class Entrada{
     $this->date=$date;
     }
 
+    /**
+     * Crea un objeto Entrada a partir de un array de datos
+     * @param array $data Array de datos
+     * @return Entrada Devuelve un objeto Entrada
+     */
+    public static function fromArrayOne(array $data):?Entrada{
+        return $entrada= new Entrada(
+                $data['id']?? null,
+                $data['usuario_id']??null,
+                $data['categoria_id']??null,
+                $data['titulo']??'',
+                $data['descripcion']??'',
+                $data['fecha']??'',
+        );
+    }
+
+    /**
+     * Crea un array de objetos Entrada a partir de un array
+     * @param array $data Array asociativo de datos
+     * @return array|null Devuelve un array de objetos Entrada
+     */
     public static function fromArray(array $data):?array{
         $entradas=[];
         foreach ($data as $dt){
@@ -40,25 +59,32 @@ class Entrada{
         return $entradas;
     }
 
-    //public function getAll():?array
-    //{
-    //    $select=$this->db->prepara("SELECT * FROM entradas");
-    //    $select->execute();
-    //    $entradas=$select->fetchAll(PDO::FETCH_ASSOC);
-    //    $select->closeCursor();
-    //    $select=null;
-    //    return $entradas;
-    //}
-
-    public function getAllById(int $id){
-        $select=$this->db->prepara("SELECT * FROM entradas WHERE categoria_id=:id");
-        $select->bindValue('id',$id);
-        $select->execute();
-        $entradas=$select->fetchAll(PDO::FETCH_ASSOC);
-        $select->closeCursor();
-        $select=null;
-        return $entradas;
+    /**
+     * Sanea y valida los datos de la entrada y devuelve un array con los datos saneados y validados
+     * @return array|null Devuelve un array con los datos saneados y validados o null si no se han podido sanear y validar
+     */
+    public function saneaYvalidaDatos(): ?array{
+        if (isset($_POST['entrada'])){
+            $titulo=$_POST['entrada']['titulo'];
+            $descripcion=$_POST['entrada']['descripcion'];
+            unset($_POST['entrada']);
+            $titulo=ValidationUtils::sanidarStringFiltro($titulo);
+            if (!ValidationUtils::noEstaVacio($titulo)) return null;
+            if (!ValidationUtils::son_letras_y_numeros($titulo)) return null;
+            if (!ValidationUtils::TextoNoEsMayorQue($titulo,30)) return null;
+            $descripcion=ValidationUtils::sanidarStringFiltro($descripcion);
+            if (!ValidationUtils::noEstaVacio($descripcion)) return null;
+            if (!ValidationUtils::TextoNoEsMayorQue($descripcion,255)) return null;
+            return ['titulo'=>$titulo,'descripcion'=>$descripcion];
+        }else{
+            $_SESSION['error']='Lo sentimos, parece que a habido alg&uacute;n problema';
+            header('Location:'.BASE_URL);
+            exit();
+        }
     }
+
+
+
 
     public function getId(): ?int{
         return $this->id;

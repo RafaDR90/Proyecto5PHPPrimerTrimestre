@@ -1,20 +1,23 @@
 <?php
 namespace Models;
-use Lib\BaseDatos,
-    PDO;
+
+use Utils\ValidationUtils;
 
 class Categoria{
     private int|null $id;
     private string $nombre;
-    private BaseDatos $db;
 
     public function __construct(int|null $id=null, string $nombre="")
     {
-        $this->db=new BaseDatos();
         $this->id=$id;
         $this->nombre=$nombre;
     }
 
+    /**
+     * Crea un array de objetos Categoria a partir de un array
+     * @param array $data
+     * @return array|null Devuelve un array de objetos Categoria
+     */
     public static function fromArray(array $data):?array{
         $categorias=[];
         foreach ($data as $dt){
@@ -27,14 +30,18 @@ class Categoria{
         return $categorias;
     }
 
-    public function getAll():?array
-    {
-        $select=$this->db->prepara("SELECT * FROM categorias");
-        $select->execute();
-        $categorias=$select->fetchAll(PDO::FETCH_ASSOC);
-        $select->closeCursor();
-        $select=null;
-        return $categorias;
+
+    /**
+     * Sanea y valida los datos de la categoria y devuelve un array con los datos saneados y validados
+     * @param $nombre string
+     * @return false|string
+     */
+    public function SaneaYValidaCategoria(string $nombre): bool|string{
+        $nombre=ValidationUtils::sanidarStringFiltro($nombre);
+        if(!ValidationUtils::noEstaVacio($nombre)) return false;
+        if(!ValidationUtils::son_letras($nombre)) return false;
+        if(!ValidationUtils::TextoNoEsMayorQue($nombre,40)) return false;
+        return $nombre;
     }
 
     /**

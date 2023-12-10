@@ -4,17 +4,18 @@ header {
     color: #fff;
     text-align: center;
     padding: 20px;
-    height: 20vh;
+    height: auto;
 }
-
 
 header h1 {
     margin: 0;
 }
-header h2{
+
+header h2 {
     margin-top: 1.3vh;
     color: yellow;
 }
+
 
 nav {
     text-align: center;
@@ -25,10 +26,15 @@ nav a {
     text-decoration: none;
     color: #fff;
     margin: 0 15px;
+    display: inline-block;/* Para evitar problemas de alineación */
 }
 
+@media only screen and (max-width: 767px) {
+    header {
+        padding: 10px;
+    }
 
-nav a:hover {
-    color: #ffcc00;
-    text-decoration: underline;
+    nav a {
+        margin: 0 10px;
+    }
 }

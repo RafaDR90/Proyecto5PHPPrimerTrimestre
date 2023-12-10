@@ -1,4 +1,9 @@
 <h2>CREAR CUENTA</h2>
+<?php if (isset($exito)): ?>
+<p class="exito"><?=$exito?></p>
+<?php elseif (isset($error)): ?>
+<p class="error"><?=$error?></p>
+<?php endif; ?>
 </header>
 <main>
     <div class="registroContainer">

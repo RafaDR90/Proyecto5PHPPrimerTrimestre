@@ -3,7 +3,7 @@
 </header>
 <main>
     <div class="loginContainer">
-<?php if(!isset($_SESSION['indentity'])): ?>
+<?php if(!isset($_SESSION['identificado'])): ?>
 <form action="<?=BASE_URL?>usuario/login/" method="post">
     <p>
     <label for="email">Email</label>
@@ -23,6 +23,6 @@
     </p>
 </form>
 <?php else: ?>
-<h3><?=$_SESSION['identity']->nombre?><?= $_SESSION['identity']->apellidos ?></h3>
+<h3><?=$_SESSION['identificado']->nombre?><?= $_SESSION['identificado']->apellidos ?></h3>
 <?php endif; ?>
 </div>

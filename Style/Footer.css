@@ -1,4 +1,4 @@
 footer{
     background-color: #333;
-    height: 5vh;
+    flex-grow: 1;
 }
